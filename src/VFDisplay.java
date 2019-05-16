@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class VFDisplay extends JFrame {
+	private DisplayPanel display;
+	private RandomLinearVF rlvf;
+	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -16,32 +19,30 @@ public class VFDisplay extends JFrame {
 		});
 	}
 	
-	private DisplayPanel display;
-	private RandomVectorField rvf;
-	
 	public VFDisplay() {
 		this.setTitle("VF Display");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setBounds(0, 0, 800, 800);
 		
-		this.rvf = new RandomVectorField(19980528L, 20, 20);
-		this.display = new DisplayPanel(this.rvf);
+		this.rlvf = new RandomLinearVF(19980528L, 20, 20);
+		this.display = new DisplayPanel(this.rlvf);
 		this.setContentPane(this.display);
 		
 		this.setVisible(true);
 	}
 	
 	private class DisplayPanel extends JPanel {
-		private RandomVectorField rvf;
+		private RandomLinearVF rlvf;
+		
 		@Override
 		public void paintComponent(Graphics g) {
 			int spacing = 35;
 			int x = 35;
 			int y = 35;
-			for(int vy = 0; vy < rvf.copyHeight(); vy++) {
-				for(int vx = 0; vx < rvf.copyWidth(); vx++) {
-					Vector v = rvf.copyVector(vx, vy);
+			for(int vy = 0; vy < rlvf.copyHeight(); vy++) {
+				for(int vx = 0; vx < rlvf.copyWidth(); vx++) {
+					Vector v = rlvf.copyVector(vx, vy);
 					boolean rng = v.isRNG();
 					if(rng) {
 						g.setColor(Color.green);
@@ -59,9 +60,10 @@ public class VFDisplay extends JFrame {
 				y += spacing;
 			}
 		}
-		public DisplayPanel(RandomVectorField rvf) {
+		
+		public DisplayPanel(RandomLinearVF rlvf) {
 			this.setBackground(Color.red);
-			this.rvf = rvf;
+			this.rlvf = rlvf;
 		}
 	}
 }

@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 /**
  * The JPanel that the symbrushes paint to.
@@ -17,11 +18,12 @@ public class PaintPanel extends JPanel {
 		for(SymmBrush brush: this.symmbrushes) {
 			synchronized(brush) {
 				brush.paintComponent(g);
-			}
+ 			}
 		}
 	}
 	
 	public PaintPanel(double width, double height, int numbrush) {
+		this.setSize((int) width, (int) height);
 		this.setBackground(Color.BLACK);
 		
 		long seed = 19980528L;

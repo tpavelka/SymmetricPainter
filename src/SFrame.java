@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 
@@ -20,29 +21,14 @@ public class SFrame extends JFrame {
 	}
 	
 	public SFrame() {
-		this.numbrush = 2;
-
-		InitThread waiter = new InitThread(this);
-		waiter.start();
-		this.addWindowStateListener(new WindowStateListener() {
-			@Override
-			public void windowStateChanged(WindowEvent e) {
-				if(e.getNewState() == JFrame.MAXIMIZED_BOTH) {
-					waiter.notifyStateChange();
-				}
-			}
-		});
-		
-		this.setUndecorated(true);
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setBounds(0, 0, 400, 400);
-		this.setVisible(true);
+		this(2);
 	}
 	public SFrame(int numbrush) {
 		this.numbrush = numbrush;
-		
+
 		InitThread waiter = new InitThread(this);
 		waiter.start();
+		
 		this.addWindowStateListener(new WindowStateListener() {
 			@Override
 			public void windowStateChanged(WindowEvent e) {
@@ -52,9 +38,12 @@ public class SFrame extends JFrame {
 			}
 		});
 		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setBounds(0, 0, 400, 400);
 		this.setVisible(true);
+		
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
 	}
 }
