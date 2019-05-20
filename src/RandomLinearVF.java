@@ -15,7 +15,8 @@ import java.util.Random;
  */
 public class RandomLinearVF {
 	public static final int MAG_MAX = 30;
-	public static final int RNG_SPACING = 17;
+	
+	private int RNG_SPACING;
 	
 	/**
 	 * The refrence to the random this vf uses
@@ -100,9 +101,10 @@ public class RandomLinearVF {
 	 * @param width the requested width of the canvas
 	 * @param height the requested height of the canvas
 	 */
-	public RandomLinearVF(long seed, int width, int height) {
+	public RandomLinearVF(long seed, int rng_spacing, int width, int height) {
 		// initialization
 		this.rand = new Random(seed);
+		this.RNG_SPACING = rng_spacing;
 		this.reqwidth = width;
 		this.reqheight = height;
 		

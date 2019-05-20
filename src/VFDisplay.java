@@ -11,18 +11,18 @@ public class VFDisplay extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new VFDisplay();
+				new VFDisplay(args);
 			}
 		});
 	}
 	
-	public VFDisplay() {
+	public VFDisplay(String[] args) {
 		this.setTitle("VF Display");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setBounds(100, 0, 1200, 750);
 		
-		DisplayPanel display = new DisplayPanel();
+		DisplayPanel display = new DisplayPanel(args);
 		this.setContentPane(display);
 		
 		this.setVisible(true);
@@ -45,7 +45,7 @@ public class VFDisplay extends JFrame {
 					} else {
 						g.setColor(Color.blue);
 					}
-					g.fillArc(x, y, 4, 4, 0, 360);
+					g.fillArc(x-2, y-2, 4, 4, 0, 360);
 					g.drawLine(x, y, (int)(x + v.getX()), (int)(y + v.getY()));
 					x += spacing;
 				}
@@ -54,12 +54,12 @@ public class VFDisplay extends JFrame {
 			}
 		}
 		
-		public DisplayPanel() {
-			// 19980528L
-			// 20011220L
-			// 19720824L
-			// 19750622L
-			rlvf = new RandomLinearVF(20011220L, 79, 47);
+		public DisplayPanel(String[] args) {
+			long seed = Long.parseLong(args[0]);
+			int rng_spacing = Integer.parseInt(args[1]);
+			int width = 79;
+			int height = 47;
+			rlvf = new RandomLinearVF(seed, rng_spacing, width, height);
 		}
 	}
 }
