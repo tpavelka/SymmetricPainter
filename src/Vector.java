@@ -6,6 +6,9 @@ import java.awt.Point;
  *
  */
 public class Vector {
+	public static final int COMPONENTS = 1;
+	public static final int DIR_MAG = 2;
+	
 	private boolean isRNG;
 	public boolean isRNG() {
 		return this.isRNG;
@@ -15,50 +18,46 @@ public class Vector {
 	}
 	
 	private double direction;
-	public Double copyDirection() {
-		return new Double(this.direction);
+	public double getDirection() {
+		return this.direction;
 	}
 	public void setDirection(double dir) {
 		this.direction = dir;
-		this.calcComps();
 	}
 	
 	private double magnitude;
-	public Double copyMagnitude() {
-		return new Double(this.magnitude);
+	public double getMagnitude() {
+		return this.magnitude;
 	}
 	public void setMagnitude(double mag) {
 		this.magnitude = mag;
-		this.calcComps();
 	}
 	
 	private Tuple components;
-	public Double copyX() {
-		return new Double(this.components.copyX());
+	public double getX() {
+		return this.components.getX();
 	}
 	public  void setX(double x) {
 		this.components.setX(x);
-		this.calcDirMag();
 	}
-	public Double copyY() {
-		return new Double(this.components.copyY());
+	public double getY() {
+		return this.components.getY();
 	}
 	public void setY(double y) {
 		this.components.setY(y);
-		this.calcDirMag();
 	}
 	
-	private void calcComps() {
+	public void calcComps() {
 		double x = this.magnitude * Math.cos(this.direction);
 		double y = this.magnitude * Math.sin(this.direction);
 		this.components.setX(x);
 		this.components.setY(y);
 	}
-	private void calcDirMag() {
+	public void calcDirMag() {
 		// get req info
 		Point p1 = new Point(0, 0);
-		double x = this.copyX();
-		double y = this.copyY();
+		double x = this.getX();
+		double y = this.getY();
 		if(x == 0 && y == 0) {
 			this.direction = 0;
 			this.magnitude = 0;
@@ -76,51 +75,48 @@ public class Vector {
 	 * Adds vector v to this vector
 	 */
 	public void addVector(Vector v) {
-		double x = this.copyX() + v.copyX();
-		double y = this.copyY() + v.copyY();
+		double x = this.getX() + v.getX();
+		double y = this.getY() + v.getY();
 		this.components.setX(x);
 		this.components.setY(y);
-		this.calcDirMag();
 	}
 	
 	/**
 	 * Returns radians as a double degree value between 0-359.999
 	 */
-	public static Double toDegreesSTD(double radians) {
+	public static double toDegreesSTD(double radians) {
 		double degrees = (radians * 180) % 360;
 		if(degrees < 0) {
 			degrees = 360 + degrees;
 		}
-		return new Double(degrees);
+		return degrees;
 	}
 	
 	@Override
 	public Vector clone() {
-		double direction = this.copyDirection();
-		double magnitude = this.copyMagnitude();
+		double direction = this.getDirection();
+		double magnitude = this.getMagnitude();
 		
-		Vector copy = new Vector(direction, magnitude);
+		Vector copy = new Vector(direction, magnitude, DIR_MAG);
 		copy.setRNG(this.isRNG);
 		
 		return copy;
 	}
 	
 	/**
-	 * Create a vector from vector components.
+	 * @param arg1 xcomp or direction
+	 * @param arg2 ycomp or magnitude
+	 * @param mode Vector.COMPONENTS or Vector.DIR_MAG
 	 */
-	public Vector(int xcomp, int ycomp) {
-		this.components = new Tuple(0, 0);
-		this.components.setX(xcomp);
-		this.components.setY(ycomp);
-		this.calcDirMag();
-	}
-	/**
-	 * Create a vector from dir and mag.
-	 */
-	public Vector(double dir, double mag) {
-		this.components = new Tuple(0, 0);
-		this.direction = dir;
-		this.magnitude = mag;
-		this.calcComps();
+	public Vector(double arg1, double arg2, int mode) {
+		if(mode == COMPONENTS) {
+			this.components = new Tuple(0, 0);
+			this.components.setX(arg1);
+			this.components.setY(arg2);
+		} else if(mode == DIR_MAG) {
+			this.components = new Tuple(0, 0);
+			this.direction = arg1;
+			this.magnitude = arg2;
+		}
 	}
 }

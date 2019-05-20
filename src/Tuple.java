@@ -2,17 +2,17 @@
  * @author Travis Pavelka
 **/
 public class Tuple {
-	Double x;
-	public Double copyX() {
-		return new Double(this.x);
+	double x;
+	public double getX() {
+		return this.x;
 	}
 	public void setX(double x) {
 		this.x = x;
 	}
 	
-	Double y;
-	public Double copyY() {
-		return new Double(this.y);
+	double y;
+	public double getY() {
+		return this.y;
 	}
 	public void setY(double y) {
 		this.y = y;
@@ -20,8 +20,8 @@ public class Tuple {
 	
 	@Override
 	public Tuple clone() {
-		Double cpyx = this.copyX();
-		Double cpyy = this.copyY();
+		double cpyx = this.getX();
+		double cpyy = this.getY();
 		
 		Tuple copy = new Tuple(cpyx, cpyy);
 		return copy;
@@ -29,7 +29,7 @@ public class Tuple {
 	
 	@Override
 	public String toString() {
-		return "Tuple["+x.toString()+", "+y.toString()+"]";
+		return "Tuple["+x+", "+y+"]";
 	}
 	
 	public Tuple(double x, double y) {

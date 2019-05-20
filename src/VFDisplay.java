@@ -7,9 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class VFDisplay extends JFrame {
-	private DisplayPanel display;
-	private RandomLinearVF rlvf;
-	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -23,11 +20,10 @@ public class VFDisplay extends JFrame {
 		this.setTitle("VF Display");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		this.setBounds(0, 0, 800, 800);
+		this.setBounds(100, 0, 1200, 750);
 		
-		this.rlvf = new RandomLinearVF(19980528L, 20, 20);
-		this.display = new DisplayPanel(this.rlvf);
-		this.setContentPane(this.display);
+		DisplayPanel display = new DisplayPanel();
+		this.setContentPane(display);
 		
 		this.setVisible(true);
 	}
@@ -37,33 +33,33 @@ public class VFDisplay extends JFrame {
 		
 		@Override
 		public void paintComponent(Graphics g) {
-			int spacing = 35;
-			int x = 35;
-			int y = 35;
-			for(int vy = 0; vy < rlvf.copyHeight(); vy++) {
-				for(int vx = 0; vx < rlvf.copyWidth(); vx++) {
-					Vector v = rlvf.copyVector(vx, vy);
+			int spacing = 15;
+			int x = 10;
+			int y = 10;
+			for(int vy = 0; vy < rlvf.getHeight(); vy++) {
+				for(int vx = 0; vx < rlvf.getWidth(); vx++) {
+					Vector v = rlvf.getVector(vx, vy);
 					boolean rng = v.isRNG();
 					if(rng) {
-						g.setColor(Color.green);
+						g.setColor(Color.red);
 					} else {
-						g.setColor(Color.black);
+						g.setColor(Color.blue);
 					}
-					double mag = v.copyMagnitude();
-					double dir = v.copyDirection();
-					Vector calc = new Vector(dir, mag);
 					g.fillArc(x, y, 4, 4, 0, 360);
-					g.drawLine(x, y, (int)(x + calc.copyX()), (int)(y + calc.copyY()));
+					g.drawLine(x, y, (int)(x + v.getX()), (int)(y + v.getY()));
 					x += spacing;
 				}
-				x = 35;
+				x = 10;
 				y += spacing;
 			}
 		}
 		
-		public DisplayPanel(RandomLinearVF rlvf) {
-			this.setBackground(Color.red);
-			this.rlvf = rlvf;
+		public DisplayPanel() {
+			// 19980528L
+			// 20011220L
+			// 19720824L
+			// 19750622L
+			rlvf = new RandomLinearVF(20011220L, 79, 47);
 		}
 	}
 }
