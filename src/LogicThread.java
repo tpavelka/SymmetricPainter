@@ -1,33 +1,80 @@
 import java.util.ArrayList;
-/**
- * Controller for calculating symmbrush movements.
- * @author Travis Pavelka
- *
- */
+
 public class LogicThread extends Thread {
+	/**
+	 * The max iteration to switch to a new PaintPanel
+	 * with a new vector field.
+	 */
+	private final long RESET_ITERATION = 20000;
+	
+	
+	
+	/**
+	 * A reference to the paintpanel.
+	 */
+	private PaintPanel panel;
+	/**
+	 * A reference to the arraylist of symmbrushes.
+	 */
 	private ArrayList<SymmBrush> symmbrushes;
-	
+	/**
+	 * The last iteration's system time.
+	 */
 	private long lasttime;
-	private long diff;
 	
+	/**
+	 * Calculate the new positions and color for all brushes
+	 */
 	@Override
 	public void run() {
-		while(true) {
-			this.diff = Math.abs(lasttime - System.nanoTime());
+		// to exit the while loop
+		boolean loop = true;
+		
+		// start lasttime
+		this.lasttime = System.nanoTime();
+		
+		// lasttime - current time
+		long diff;
+		
+		// the current iteration
+		long iteration = 0;
+		
+		// logic until exit
+		while(loop) {
+			// calc diff
+			diff = Math.abs(lasttime - System.nanoTime());
 			
+			// reset lasttime to now
+			this.lasttime = System.nanoTime();
+			
+			// use diff to calc brush logic
 			for(SymmBrush brush: this.symmbrushes) {
-				synchronized(brush) {
-					brush.update(diff);
-				}
+				brush.update(diff);
 			}
 			
-			this.lasttime = System.nanoTime();
+			// test if ready to reset paintpanel
+			if(iteration >= this.RESET_ITERATION) {
+				panel.stop();
+				loop = false;
+			}
+			
+			// increment iteration
+			iteration++;
 		}
 	}
 	
-	public LogicThread(ArrayList<SymmBrush> symmbrushes) {
-		this.symmbrushes = symmbrushes;
+	/**
+	 * LogicThread Constructor
+	 * @param symmbrushes
+	 */
+	public LogicThread(PaintPanel panel, ArrayList<SymmBrush> symmbrushes) {
+		// name the thread
+		this.setName("Logic Thread");
 		
-		this.lasttime = System.nanoTime();
+		// catch the paint panel reference
+		this.panel = panel;
+		
+		// catch the symmbrushes reference
+		this.symmbrushes = symmbrushes;
 	}
 }

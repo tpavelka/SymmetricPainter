@@ -1,0 +1,5 @@
+SymmBrush: INERTIA
+SymmBrush: COLORIZER
+PaintPanel: RNG_SPACING
+PaintPanel: NUMBRUSH
+LogicThread: RESET_ITERATION
