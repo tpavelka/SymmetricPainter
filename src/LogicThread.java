@@ -5,7 +5,7 @@ public class LogicThread extends Thread {
 	 * The max iteration to switch to a new PaintPanel
 	 * with a new vector field.
 	 */
-	private final long RESET_ITERATION = 20000;
+	private final long RESET_ITERATION = 4000;
 	
 	
 	
@@ -50,6 +50,13 @@ public class LogicThread extends Thread {
 			// use diff to calc brush logic
 			for(SymmBrush brush: this.symmbrushes) {
 				brush.update(diff);
+			}
+			
+			// ice the processor
+			try {
+				this.sleep(30);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 			
 			// test if ready to reset paintpanel

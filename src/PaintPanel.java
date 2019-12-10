@@ -88,6 +88,6 @@ public class PaintPanel extends JPanel {
 		// 62.5 Hz = 16
 		// schedule repainting
 		paint = new Timer();
-		paint.schedule(new Repainter(this), 0, 1);
+		paint.schedule(new Repainter(this), 0, 30);
 	}
 }

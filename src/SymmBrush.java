@@ -26,7 +26,7 @@ public class SymmBrush {
 	private static final double PURPLE =	(300 + OFFSET) % SPECTRUM;
 	
 	// how much of the previous vector carries into this tick
-	private static final double INERTIA = 0.25;
+	private static final double INERTIA = 0.9;
 	// colorizer: lower is less colory
 	private static final int COLORIZER = 10;
 	
