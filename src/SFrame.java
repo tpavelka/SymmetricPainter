@@ -21,9 +21,13 @@ public class SFrame extends JFrame {
 		this.setContentPane(paintpanel);
 		
 		// set the settings of the JFrame
+		if(System.getProperty("os.name").equals("Windows 10")) {
+			this.setBounds(0, 0, width, height);
+			this.setUndecorated(true);
+		} else {
+			this.setBounds(0, 0, width-30, height-60);
+		}
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(0, 0, width, height);
-		this.setUndecorated(true);
 		
 		// make the JFrame visible
 		this.setVisible(true);
